@@ -19,14 +19,7 @@ def load_data() -> pd.DataFrame:
     for root, dirs, files in os.walk('.'):
         if 'data.csv' in files:
             return pd.read_csv('data.csv')
-        if 'src' in dirs:
-            os.chdir('src')
-        else:
-            os.chdir('..')
-        for root, dirs, files in os.walk('.'):
-            if 'data.csv' in files:
-                return pd.read_csv('data.csv')
-            raise FileNotFoundError("data.csv not in project directory")
+        raise FileNotFoundError("data.csv not in project directory")
 
 
 def plot_data(price: np.ndarray, km: np.ndarray, old_theta0: float,
