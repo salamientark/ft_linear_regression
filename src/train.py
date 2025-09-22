@@ -7,7 +7,7 @@ from estimate_price import estimate_price, get_theta
 
 ### PROGRAM CONSTANT
 ALPHA = 0.01    # Learning rate
-ITERATIONS = 10   # Number of iterations
+ITERATIONS = 100   # Number of iterations
 
 
 def load_data() -> pd.DataFrame:
@@ -39,9 +39,14 @@ def plot_data(price: np.ndarray, km: np.ndarray, old_theta0: float,
     """
     plt.xlabel('km')
     plt.ylabel('price')
-    plt.plot(km, price, 'o', color='blue')
-    plt.plot(km, old_theta0 + old_theta1 * km, color='orange')  # Plot old theta
-    plt.plot(km, new_theta0 + new_theta1 * km, color='green')  # Plot new theta
+    plt.plot(km, price, 'o', color='blue', label='data')
+    plt.plot(km, old_theta0 + old_theta1 * km, color='orange',
+             label='old hypothesis')
+    plt.plot(km, new_theta0 + new_theta1 * km, color='green',
+            label='new hypothesis')
+    plt.legend()
+    manager = plt.get_current_fig_manager()
+    manager.full_screen_toggle()
     plt.show()
 
 
