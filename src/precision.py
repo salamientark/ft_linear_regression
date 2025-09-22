@@ -1,4 +1,3 @@
-import os
 import numpy as np
 from typing import Callable
 from train import load_data
@@ -11,7 +10,7 @@ def mean_square_error(
         theta0: float,
         theta1: float,
         hypothesis: Callable[[float, float, float], float]
-    ) -> float:
+        ) -> float:
     """Calculate the mean square error between the output and the hypothesis
 
     Parameters:
@@ -38,7 +37,7 @@ def mean_absolute_error(
         theta0: float,
         theta1: float,
         hypothesis: Callable[[float, float, float], float]
-    ) -> float:
+        ) -> float:
     """Calculate the mean absolute error between the output and the hypothesis
 
     Parameters:
@@ -65,7 +64,7 @@ def variance(
         theta0: float,
         theta1: float,
         hypothesis: Callable[[float, float, float], float]
-    ) -> float:
+        ) -> float:
     """Calculate the variance calculated by the model
 
     Parameters:
@@ -96,7 +95,7 @@ def print_result(
         rmse: float,
         mae: float,
         var: float
-    ) -> None:
+        ) -> None:
     """Measure precision/error of the model using different algorithm
     (MSE, RMSE, MAE, VAR)
 
@@ -113,7 +112,6 @@ def print_result(
     OKBLUE = "\033[94m"
     OKCYAN = "\033[96m"
     OKGREEN = "\033[92m"
-    WARNING = "\033[93m"
     ENDC = "\033[0m"
     BOLD = "\033[1m"
 
@@ -130,9 +128,9 @@ def main():
     """Show model precision/error"""
     try:
         data = load_data()
-        km = data["km"].to_numpy() # Not normalized data
+        km = data["km"].to_numpy()  # Not normalized data
         price = data["price"].to_numpy()
-        theta0, theta1 = get_theta() # Not scaled theta
+        theta0, theta1 = get_theta()  # Not scaled theta
         mse = mean_square_error(km, price, theta0, theta1, estimate_price)
         rmse = np.sqrt(mse)
         mae = mean_absolute_error(km, price, theta0, theta1, estimate_price)

@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from estimate_price import estimate_price, get_theta
 
 
-### PROGRAM CONSTANT
+# PROGRAM CONSTANT
 ALPHA = 0.01    # Learning rate
 ITERATIONS = 100   # Number of iterations
 
@@ -30,7 +30,7 @@ def load_data() -> pd.DataFrame:
 
 
 def plot_data(price: np.ndarray, km: np.ndarray, old_theta0: float,
-        old_theta1: float, new_theta0: float, new_theta1: float):
+              old_theta1: float, new_theta0: float, new_theta1: float):
     """Plot the data using matplotlib
 
     Parameters:
@@ -43,7 +43,7 @@ def plot_data(price: np.ndarray, km: np.ndarray, old_theta0: float,
     plt.plot(km, old_theta0 + old_theta1 * km, color='orange',
              label='old hypothesis')
     plt.plot(km, new_theta0 + new_theta1 * km, color='green',
-            label='new hypothesis')
+             label='new hypothesis')
     plt.legend()
     manager = plt.get_current_fig_manager()
     manager.full_screen_toggle()
@@ -55,7 +55,7 @@ def get_new_param_value(
         output: np.ndarray,
         theta0: float,
         theta1: float
-    ) -> tuple[float, float]:
+        ) -> tuple[float, float]:
     """Calculate new parameter value using gradient descent algorithm
 
     Parameters:
@@ -91,9 +91,9 @@ def update_theta(theta0: float, theta1: float):
 def raw_to_scaled(
         theta0: float,
         theta1: float,
-        mean : float,
+        mean: float,
         std: float
-    ) -> tuple[float, float]:
+        ) -> tuple[float, float]:
     """Convert raw theta values to scaled theta values
 
     Parameters:
@@ -113,9 +113,9 @@ def raw_to_scaled(
 def scaled_to_raw(
         theta0: float,
         theta1: float,
-        mean : float,
+        mean: float,
         std: float
-    ) -> tuple[float, float]:
+        ) -> tuple[float, float]:
     """Convert scaled theta values to raw theta values
 
     Parameters:
@@ -155,21 +155,25 @@ def main():
     """Train the model using the data from data.csv"""
     try:
         data = load_data()
-        tmp_km = data["km"].to_numpy() # Not normalized data
+        tmp_km = data["km"].to_numpy()  # Not normalized data
         mean = tmp_km.mean()
         std = tmp_km.std()
-        km = np.array([(x - mean) / std for x in tmp_km]) # normalized data
+        km = np.array([(x - mean) / std for x in tmp_km])  # normalized data
         price = data["price"].to_numpy()
-        raw_theta0, raw_theta1 = get_theta() # Not scaled theta
+        raw_theta0, raw_theta1 = get_theta()  # Not scaled theta
         scaled_theta0, scaled_theta1 = raw_to_scaled(
-            raw_theta0, raw_theta1, mean, std) # Scaled theta
+            raw_theta0, raw_theta1, mean, std)  # Scaled theta
 
-        for i in range(ITERATIONS) :
-            scaled_theta0, scaled_theta1 = get_new_param_value(km, price, scaled_theta0, scaled_theta1)
-        new_theta0, new_theta1 = scaled_to_raw(scaled_theta0, scaled_theta1, mean, std)
+        for i in range(ITERATIONS):
+            scaled_theta0, scaled_theta1 = get_new_param_value(km, price,
+                                                               scaled_theta0,
+                                                               scaled_theta1)
+        new_theta0, new_theta1 = scaled_to_raw(scaled_theta0,
+                                               scaled_theta1, mean, std)
         update_theta(new_theta0, new_theta1)
         print_result(raw_theta0, raw_theta1, new_theta0, new_theta1)
-        plot_data(price, tmp_km, raw_theta0, raw_theta1, new_theta0, new_theta1)
+        plot_data(price, tmp_km, raw_theta0, raw_theta1, new_theta0,
+                  new_theta1)
     except Exception as e:
         print(f"Error: {e}")
 

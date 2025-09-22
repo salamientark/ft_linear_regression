@@ -1,9 +1,3 @@
-import os
-import sys
-import pandas as pd
-import matplotlib.pyplot as plt
-
-
 def get_theta() -> tuple[float, float]:
     """Get the theta values from the file .theta found in the project dir
     if not found create file and init thetas at 0
@@ -42,7 +36,7 @@ def main() -> int:
       av (list): List of arguments
     """
     try:
-        milleage = float(input("Enter the car milleage to estimate its price: "))
+        milleage = float(input("Enter the car milleage: "))
         theta0, theta1 = get_theta()
         estimated_price = estimate_price(theta0, theta1, milleage)
         print(f"Car milleage: \033[34m{milleage}\033[0m")
