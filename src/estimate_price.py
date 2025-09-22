@@ -34,7 +34,7 @@ def estimate_price(theta0: float, theta1: float, milleage: float) -> float:
     return theta0 + theta1 * milleage
 
 
-def main(ac: int, av: list) -> int:
+def main() -> int:
     """Estimate the price of a car given its milleage
 
     Parameters:
@@ -42,14 +42,12 @@ def main(ac: int, av: list) -> int:
       av (list): List of arguments
     """
     try:
-        if (ac != 2):
-            raise Exception("Invalid number of argument.")
-        milleage = float(av[1])
+        milleage = float(input("Enter the car milleage to estimate its price: "))
         theta0, theta1 = get_theta()
         estimated_price = estimate_price(theta0, theta1, milleage)
         print(f"Car milleage: \033[34m{milleage}\033[0m")
         print("The algorithm predicted that the car price would be...")
-        print(f"\033[32m{estimated_price}$\033[0m")
+        print(f"\033[32m{estimated_price:0.2f}$\033[0m")
         return 0
     except Exception as e:
         print(f"Error: {e}")
@@ -57,4 +55,4 @@ def main(ac: int, av: list) -> int:
 
 
 if __name__ == "__main__":
-    main(len(sys.argv), sys.argv)
+    main()
