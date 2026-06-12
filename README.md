@@ -8,7 +8,7 @@ trained with the **Batch Gradient Descent** algorithm.
 - [uv](https://docs.astral.sh/uv/getting-started/installation/) — Python package & environment manager
 - Python **3.14+** (uv installs it automatically if missing)
 
-Python dependencies (installed automatically by the setup script):
+Python dependencies (installed by `uv sync`):
 
 | Package    | Purpose                       |
 |------------|-------------------------------|
@@ -18,16 +18,16 @@ Python dependencies (installed automatically by the setup script):
 
 ## Setup
 
-From the project root, run the environment setup script:
+From the project root:
 
 ```bash
-./scripts/setup_env.sh
+uv sync
+source .venv/bin/activate
 ```
 
-The script will:
-1. Check that `uv` is installed (exits with a hint if not)
-2. Install all dependencies into `.venv` via `uv sync`
-3. Open a new shell with the virtual environment activated
+`uv sync` creates the `.venv` virtual environment and installs all
+dependencies from `pyproject.toml` / `uv.lock`. Sourcing the activate
+script enables the environment in your current shell.
 
 ## Data
 
@@ -83,8 +83,6 @@ Evaluates the trained model against `data.csv` and prints:
 
 ```
 .
-├── scripts/
-│   └── setup_env.sh       # Environment setup (uv + venv)
 ├── src/
 │   ├── train.py           # Train the model (gradient descent)
 │   ├── estimate_price.py  # Predict a price from a mileage
