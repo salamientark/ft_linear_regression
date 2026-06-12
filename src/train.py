@@ -1,4 +1,5 @@
 import os
+import sys
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -8,18 +9,19 @@ from estimate_price import estimate_price, get_theta
 # PROGRAM CONSTANT
 ALPHA = 0.01    # Learning rate
 ITERATIONS = 100   # Number of iterations
+DEFAULT_DATA_PATH = 'data.csv'  # Default data file path
 
 
-def load_data() -> pd.DataFrame:
+def load_data(path: str | None) -> pd.DataFrame:
     """Load data from the file data.csv if found in the project dir
 
     Return:
         pd.DataFrame: DataFrame containing the data from data.csv
     """
-    for root, dirs, files in os.walk('.'):
-        if 'data.csv' in files:
-            return pd.read_csv('data.csv')
-        raise FileNotFoundError("data.csv not in project directory")
+    data_path = path if path else DEFAULT_DATA_PATH
+    if not os.path.isfile(data_path):
+        raise FileNotFoundError(f"{data_path} not found")
+    return pd.read_csv(data_path)
 
 
 def plot_data(price: np.ndarray, km: np.ndarray, old_theta0: float,
@@ -147,7 +149,10 @@ def print_result(
 def main():
     """Train the model using the data from data.csv"""
     try:
-        data = load_data()
+        argc: int = len(sys.argv)
+        if argc > 2:
+            raise ValueError("Too many arguments. Usage: python train.py [data_path]")
+        data = load_data(sys.argv[1] if argc == 2 else None)
         tmp_km = data["km"].to_numpy()  # Not normalized data
         mean = tmp_km.mean()
         std = tmp_km.std()
