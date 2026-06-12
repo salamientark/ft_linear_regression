@@ -1,3 +1,5 @@
+import sys as sys
+
 def get_theta() -> tuple[float, float]:
     """Get the theta values from the file .theta found in the project dir
     if not found create file and init thetas at 0
@@ -36,7 +38,14 @@ def main() -> int:
       av (list): List of arguments
     """
     try:
+        if len(sys.argv) != 1:
+            raise ValueError("No arguments expected")
         milleage = float(input("Enter the car milleage: "))
+        if milleage < 0:
+            raise ValueError("Milleage must be a positive number")
+        # Avoid -0.0 print glitch
+        if milleage == 0:
+            milleage = 0.0
         theta0, theta1 = get_theta()
         estimated_price = estimate_price(theta0, theta1, milleage)
         print(f"Car milleage: \033[34m{milleage}\033[0m")
